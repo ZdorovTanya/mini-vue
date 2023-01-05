@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Форма 6 лаба</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <link href="/style.css" rel="stylesheet" type="text/css">
+
+</head>
+<body>
+    <div id="app">
+        <form   method="post" v-on:submit= "onSubmit" action="mailto:zdorovilo.tanya@mail.ru">
+
+
+            <p v-if="errors.length" id="message">
+                <b>Исправьте указанные ошибки:</b>
+                <ul>
+                    <li v-for="error in errors" id="warning">{{ error }}</li>
+                </ul>
+            </p>
+
+            <!--    почему нельзя обрамить в еще один тег и задать стили -->
+            <!--    как сделать нормальнцю отправку на почту -->
+            
+            <p v-if="isCorrect" id="good">
+                <b>Годится</b>
+            </p>
+        
+            <p>
+                <label for="Username">Введите Фамилию:</label>
+                <br><br>
+                <input v-model="familia" id="Username" type="text"  placeholder="Введите Фамилию"  name = "fio">
+                <h4>Введённая фамилия: {{ familia }} </h4>
+            </p>
+            <!-- <hr> -->
+           
+    
+            <p>
+                <label for="Username">Введите Имя:</label>
+                <br><br>
+                <input v-model="imia" id="Username" type="text" placeholder="Введите Имя"  name = "name">
+                <h4>Введенное имя: {{imia}} </h4>
+            </p>
+            <!-- <hr> -->
+            
+    
+            <label for="bday">Ваш возраст:</label>
+            <br><br>
+            <input v-model="rogdenie" type="number" id="bday" placeholder="Количество прожитых лет" name="daybirn">
+            <h4>Введенная дата: {{rogdenie}} </h4>
+            <!-- <hr> -->
+            
+    
+            
+            <label>Укажите пол</label>
+
+            <p>
+                <input type="radio" id="w" value="Женский" v-model="picked">
+                <label for="w">Женский</label>
+            </p>
+
+            <p>
+                <input type="radio" id="m" value="Мужской" v-model="picked">
+                <label for="m">Мужской</label>
+            </p>
+
+            <h4>Введенный пол: {{picked}} </h4>
+
+    
+            <br>
+    
+            <br>
+            
+                <label>Выберете ваш любимый фрэймворк</label>
+
+
+                <p>
+                    <input type="checkbox" id="react" v-model="checkedNames" value="React.js">
+                    <label for="react">React.js</label>
+                </p>
+
+                <p>
+                    <input type="checkbox" id="jq" v-model="checkedNames" value="JQuery">
+                    <label for="jq">JQuery</label>
+                </p>
+
+                <p>
+                    <input type="checkbox" id="vue" v-model="checkedNames" value="Vue.js">
+                    <label for="vue"> Vue.js</label>
+                </p>
+
+                <h4>Отмеченные фрэймворки: {{checkedNames}} </h4>
+    
+            <br>
+            
+            <button type="submit"id="btn">Отправить</button>
+            <button type="reset">Очистить</button>
+    
+        </form> 
+    </div>
+
+    <script>
+        var app = new Vue({ 
+            el: '#app',
+            data: {
+                errors: [],
+                familia:null,
+                imia:null,
+                rogdenie:null,
+                checkedNames: [],
+                picked:null,
+                isCorrect: false
+            },
+            methods:{
+                onSubmit: function (e) {
+                    if (this.familia && this.imia && this.rogdenie && this.picked && this.checkedNames) {
+                        this.isCorrect = true;
+                    }
+                    
+                    this.errors = [];
+                    
+                    if (!this.familia) {
+                        this.errors.push('Укажите фамилию');
+                    }
+                    if (!this.imia) {
+                        this.errors.push('Укажите имя');
+                    }
+                    if (!this.rogdenie) {
+                        this.errors.push('Укажите возраст');
+                    }
+                    if (!this.picked) {
+                        this.errors.push('Укажите пол');
+                    }
+                    if (!(document.getElementById("react").checked || document.getElementById("jq").checked || document.getElementById("vue").checked)) {
+                        this.errors.push('Укажите фрэймворк');
+                    }
+
+                }
+            }
+        })
+    </script>
+</body>
+</html>
